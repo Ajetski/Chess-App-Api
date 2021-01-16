@@ -1,0 +1,12 @@
+{
+  "name": "chess-app-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Ajetski/Chess-App-Api.git",
+  "author": "Caleb Garrick and Adam Jeniski",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "ws": "^7.4.2"
+  }
+}
