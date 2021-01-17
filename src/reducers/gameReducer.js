@@ -1,13 +1,24 @@
 import { updatePGN } from '../utils.js';
-import { makeMove, newGame } from '../actions/gameActions.js';
+import { makeMove, newGame, connectToGame } from '../actions/gameActions.js';
+import { stat } from 'fs';
 
 const initialState = {};
 let gameCounter = 0;
 
 export function gameReducer(state = initialState, action, ws) {
 	if (action.type === 'game/connect') {
-		state[action.id].connections.add(ws)
-		return state;
+		ws.send(connectToGame({
+			id: action.id,
+			isWhite: state[action.id].connections.length === 1,
+			isPlayer: state[action.id].connections.length < 2
+		}));
+		return {
+			...state,
+			[action.id]: {
+				...state[action.id],
+				connections: state[action.id].connections.concat(ws)
+			}
+		};
 	}
 	else if (action.type === 'game/newGame') {
 		ws.send(newGame({ id: gameCounter }));
