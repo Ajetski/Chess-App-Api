@@ -12,6 +12,11 @@ export function newGame(payload = {}) {
     });
 }
 
-export function startGame(payload = {}) {
-
+export function connectToGame(payload = {}) {
+    return JSON.stringify({
+        type: 'game/connect',
+        id: payload.id,
+        isWhite: payload.isWhite,
+        isPlayer: payload.isPlayer
+    });
 }
