@@ -1,32 +1,39 @@
-import { updatePGN } from "../../utils";
-import { makeMove, startGame } from "../actions/gameActions"
+import { updatePGN } from '../utils.js';
+import { makeMove, newGame } from '../actions/gameActions.js';
 
 const initialState = {};
+let gameCounter = 0;
 
-export default function gameReducer(state = initialState, action) {
+export function gameReducer(state = initialState, action, ws) {
 	if (action.type === 'game/connect') {
-		state[action.id].connections.add(action.connection)
+		state[action.id].connections.add(ws)
 		return state;
 	}
 	else if (action.type === 'game/newGame') {
-		const id = Math.floor(Math.random() * 10000).toString();
-		const newState = { ...state };
-		newState[id] = {
-			connections: [],
-			pgn: '',
-			//hostcolor,
-			//gamemode,
-			//btime,
-			//wtime,
+		ws.send(newGame({ id: gameCounter }));
+		return {
+			...state,
+			[gameCounter++]: {
+				connections: [],
+				pgn: '',
+				//hostcolor,
+				//gamemode,
+				//btime,
+				//wtime,
+			}
 		};
-		return newState;
 	}
 	else if (action.type === 'game/move') {
-		state[action.id].pgn = updatePGN(action.move);
 		state[action.id].connections.forEach(conn => {
-			conn.send(makeMove(state[action.id].pgn))
+			conn.send(makeMove(updatePGN(action.move)))
 		});
-		return state;
+		return {
+			...state,
+			[action.id]: {
+				...state[action.id],
+				pgn: updatePGN(action.move)
+			}
+		};
 	}
 	// else if (action.type === 'game/flag') {
 	// 	return state;
