@@ -16,7 +16,8 @@ export function connectToGame(payload = {}) {
     return JSON.stringify({
         type: 'game/connect',
         id: payload.id,
-        isWhite: payload.isWhite,
-        isPlayer: payload.isPlayer
+        orientation: payload.orientation,
+        isPlayer: payload.isPlayer,
+        pgn: payload.pgn
     });
 }

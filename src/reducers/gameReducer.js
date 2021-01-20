@@ -9,8 +9,10 @@ export function gameReducer(state = initialState, action, ws) {
 	if (action.type === 'game/connect') {
 		ws.send(connectToGame({
 			id: action.id,
-			isWhite: state[action.id].connections.length === 1,
-			isPlayer: state[action.id].connections.length < 2
+			orientation: state[action.id].connections.length === 1
+				? 'white' : 'black',
+			isPlayer: state[action.id].connections.length < 2,
+			pgn: state[action.id].pgn
 		}));
 		return {
 			...state,
