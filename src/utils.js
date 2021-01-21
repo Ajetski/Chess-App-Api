@@ -1,4 +1,4 @@
-import Chess from 'chess.js';
+import { Chess } from 'chess.js';
 
 export function copyChess(chess) {
     const copy = new Chess();
