@@ -1,4 +1,3 @@
-import WebSocket from 'express-ws';
 import express from 'express';
 import ExpressWs from 'express-ws';
 
