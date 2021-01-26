@@ -1,11 +1,17 @@
-import WebSocket from 'ws';
+import WebSocket from 'express-ws';
+import express from 'express';
+import ExpressWs from 'express-ws';
 
 import { gameReducer } from './reducers/gameReducer.js';
 
-const wss = new WebSocket.Server({ port: 3001 });
+const app = express();
+const expressWs = ExpressWs(app);
+
+const HTTP_PORT = process.env.PORT || 3001;
+
 let store = {};
 
-wss.on('connection', ws => {
+app.ws('/', (ws, req) => {
     ws.on('message', message => {
         const action = JSON.parse(message);
         console.log('message recieved: ', action);
@@ -13,8 +19,8 @@ wss.on('connection', ws => {
     });
 });
 
-wss.on('close', ws => {
-    // clean up 
+app.get('/', (req, res) => {
+    return res.send(`hello world`);
 });
 
-console.log('WebSocket Server listening on port 3001...');
+app.listen(HTTP_PORT, () => console.log(`Http Server is listening on port ${HTTP_PORT}...`));
