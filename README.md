@@ -7,4 +7,4 @@
 - Run `yarn start`
 
 
-Deployed to http://ajet-chess-app-server.herokuapp.com/
+Deployed to https://ajet-chess-app-server.herokuapp.com/
