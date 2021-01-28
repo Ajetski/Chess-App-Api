@@ -38,7 +38,7 @@ export function gameReducer(state = initialState, action, ws) {
 	}
 	else if (action.type === 'game/move' && state[action.id]) {
 		state[action.id].connections
-			.filter(conn => conn !== ws)
+			.filter(conn => conn._receiver._mask !== ws._receiver._mask && conn.readyState === 1)
 			.forEach(conn => conn.send(makeMove({
 				pgn: updatePGN(state[action.id].pgn, action.move)
 			})));
