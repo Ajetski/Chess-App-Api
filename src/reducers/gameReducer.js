@@ -2,7 +2,6 @@ import { updatePGN } from '../utils.js';
 import { makeMove, newGame, connectToGame } from '../actions/gameActions.js';
 
 const initialState = {};
-let gameCounter = 0;
 
 export function gameReducer(state = initialState, action, ws) {
 	if (action.type === 'game/connect' && state[action.id]) {
@@ -19,20 +18,6 @@ export function gameReducer(state = initialState, action, ws) {
 			[action.id]: {
 				...state[action.id],
 				connections: state[action.id].connections.concat(ws)
-			}
-		};
-	}
-	else if (action.type === 'game/newGame') {
-		ws.send(newGame({ id: gameCounter }));
-		return {
-			...state,
-			[gameCounter++]: {
-				connections: [],
-				pgn: '',
-				//hostcolor,
-				//gamemode,
-				//btime,
-				//wtime,
 			}
 		};
 	}
