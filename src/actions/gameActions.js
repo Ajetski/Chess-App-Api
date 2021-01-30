@@ -5,13 +5,6 @@ export function makeMove(payload = {}) {
     });
 }
 
-export function newGame(payload = {}) {
-    return JSON.stringify({
-        type: 'game/newGame',
-        id: payload.id
-    });
-}
-
 export function connectToGame(payload = {}) {
     return JSON.stringify({
         type: 'game/connect',
@@ -19,5 +12,12 @@ export function connectToGame(payload = {}) {
         orientation: payload.orientation,
         isPlayer: payload.isPlayer,
         pgn: payload.pgn
+    });
+}
+
+export function error({ error }) {
+    return JSON.stringify({
+        type: 'game/error',
+        error
     });
 }
