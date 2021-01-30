@@ -14,6 +14,12 @@ export function updatePGN(pgn, move) {
     return chess.pgn();
 }
 
+export function pgnToColor(pgn) {
+    const chess = new Chess();
+    chess.load_pgn(pgn);
+    return chess.turn() === 'w' ? 'white' : 'black';
+}
+
 export function pgnToGameLength(pgn) {
     const chess = new Chess();
     chess.load_pgn(pgn);
