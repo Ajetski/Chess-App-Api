@@ -36,12 +36,16 @@ app.get('/game', (req, res) => {
 app.post('/game', (req, res) => {
     const id = gameCounter++;
     store.games[id] = {
-        connections: [],
         pgn: '',
-        //hostcolor,
-        //gamemode,
-        //btime,
-        //wtime,
+        white: {
+            userId: null,
+            connections: []
+        },
+        black: {
+            userId: null,
+            connections: []
+        },
+        spectators: []
     };
     res.send({ id });
 });
