@@ -1,41 +1,41 @@
-import express from 'express';
-import ExpressWs from 'express-ws';
-import cors from 'cors';
-import bodyParser from 'body-parser';
+import * as express from 'express';
+import * as ExpressWs from 'express-ws';
+import * as cors from 'cors';
+import * as bodyParser from 'body-parser';
 
-import { gameReducer } from './reducers/gameReducer.js';
-import { pgnToGameLength } from './utils.js';
+import { gameReducer } from './reducers/gameReducer';
+import { pgnToGameLength } from './utils';
 
-const app = express();
+const app: any = express();
 app.use(cors());
 app.use(bodyParser.json());
 const expressWs = ExpressWs(app);
 
 const HTTP_PORT = process.env.PORT || 3001;
 
-let store = { games: {} };
+let store: any = { games: {} };
 let gameCounter = 1;
 
-app.ws('/', (ws, req) => {
-    ws.on('message', message => {
+app.ws('/', (ws: any, req: express.Request) => {
+    ws.on('message', (message: any) => {
         const action = JSON.parse(message);
         console.log('message recieved: ', action);
         store.games = gameReducer(store.games, action, ws);
     });
 });
 
-app.get('/', (req, res) => {
+app.get('/', (req: express.Request, res: express.Response) => {
     return res.send(`hello world`);
 });
 
-app.get('/game', (req, res) => {
+app.get('/game', (req: express.Request, res: express.Response) => {
     return res.send(Object.keys(store.games).map(id => ({
         id,
         numMoves: pgnToGameLength(store.games[id].pgn)
     })));
 });
 
-app.post('/game', (req, res) => {
+app.post('/game', (req: express.Request, res: express.Response) => {
     const id = gameCounter++;
     store.games[id] = {
         pgn: '',

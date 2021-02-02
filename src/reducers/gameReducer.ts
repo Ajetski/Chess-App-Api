@@ -1,19 +1,18 @@
-import { updatePGN, pgnToColor } from '../utils.js';
-import { makeMove, connectToGame, error } from '../actions/gameActions.js';
+import { updatePGN, pgnToColor } from '../utils';
+import { makeMove, connectToGame, error } from '../actions/gameActions';
 
-const initialState = {};
-
-export function gameReducer(state = initialState, action, ws) {
+export function gameReducer(state: any, action: any, ws: WebSocket) {
 	if (action.type === 'game/connect') {
 		if (state[action.id]) {
 			// connect to existing game
-			const resConnect = (color) => ws.send(connectToGame({
+			const resConnect = (color: string) => ws.send(connectToGame({
 				id: action.id,
 				orientation: color,
+				isPlayer: action.isPlayer,
 				pgn: state[action.id].pgn
 			}));
 
-			const calcStateForColor = (color) => {
+			const calcStateForColor = (color: string) => {
 				return ({
 					...state,
 					[action.id]: {
@@ -60,11 +59,11 @@ export function gameReducer(state = initialState, action, ws) {
 	} else if (action.type === 'game/move' && state[action.id]) {
 		const pgn = updatePGN(state[action.id].pgn, action.move);
 		state[action.id][pgnToColor(pgn)].connections
-			.filter(conn => conn.readyState === 1)
-			.forEach(conn => conn.send(makeMove({ pgn })));
+			.filter((conn: WebSocket) => conn.readyState === 1)
+			.forEach((conn: WebSocket) => conn.send(makeMove({ pgn })));
 		state[action.id].spectators
-			.filter(conn => conn.readyState === 1)
-			.forEach(conn => conn.send(makeMove({ pgn })));
+			.filter((conn: WebSocket) => conn.readyState === 1)
+			.forEach((conn: WebSocket) => conn.send(makeMove({ pgn })));
 		return {
 			...state,
 			[action.id]: {
