@@ -1,12 +1,14 @@
 import express from 'express';
 import ExpressWs from 'express-ws';
 import cors from 'cors';
+import bodyParser from 'body-parser';
 
 import { gameReducer } from './reducers/gameReducer.js';
 import { pgnToGameLength } from './utils.js';
 
 const app = express();
 app.use(cors());
+app.use(bodyParser.json());
 const expressWs = ExpressWs(app);
 
 const HTTP_PORT = process.env.PORT || 3001;
@@ -47,6 +49,17 @@ app.post('/game', (req, res) => {
         },
         spectators: []
     };
+    if (req.body.userId) {
+        if (req.body.color === 'random') {
+            if (Math.floor(Math.random() * 10000) % 2 === 1) {
+                store.games[id].white.userId = req.body.userId;
+            } else {
+                store.games[id].black.userId = req.body.userId;
+            }
+        } else if (req.body.color === 'white' || req.body.color === 'black') {
+            store.games[id][req.body.color].userId = req.body.userId;
+        }
+    }
     res.send({ id });
 });
 
