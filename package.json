@@ -3,10 +3,11 @@
 	"version": "1.0.0",
 	"main": "dist/index.js",
 	"scripts": {
-		"prestart": "npm run clean && npm run build",
 		"start": "node .",
 		"clean": "rm -rf dist",
 		"build": "tsc",
+		"rebuild": "npm run clean && npm run build",
+		"heroku-postbuild": "npm run build",
 		"dev": "nodemon"
 	},
 	"repository": "https://github.com/Ajetski/Chess-App-Api.git",
