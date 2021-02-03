@@ -17,6 +17,12 @@ export function connectToGame({ id, orientation, isPlayer, pgn }: {
     });
 }
 
+export function stayConnected() {
+    return JSON.stringify({
+        type: 'game/pong'
+    });
+}
+
 export function error({ error }: { error: string }) {
     return JSON.stringify({
         type: 'game/error',

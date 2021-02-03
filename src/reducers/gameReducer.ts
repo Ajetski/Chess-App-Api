@@ -1,5 +1,5 @@
 import { updatePGN, pgnToColor } from '../utils';
-import { makeMove, connectToGame, error } from '../actions/gameActions';
+import { makeMove, connectToGame, stayConnected, error } from '../actions/gameActions';
 
 export function gameReducer(state: any, action: any, ws: WebSocket) {
 	if (action.type === 'game/connect') {
@@ -71,6 +71,8 @@ export function gameReducer(state: any, action: any, ws: WebSocket) {
 				pgn
 			}
 		};
+	} else if (action.type === 'game/ping') {
+		ws.send(stayConnected());
 	}
 	return state;
 }
