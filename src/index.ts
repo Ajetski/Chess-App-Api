@@ -17,7 +17,7 @@ let store: any = { games: {} };
 let gameCounter = 1;
 
 app.ws('/', (ws: any, req: express.Request) => {
-    ws.on('message', (message: any) => {
+    ws.on('message', (message: string) => {
         const action = JSON.parse(message);
         console.log('message recieved: ', action);
         store.games = gameReducer(store.games, action, ws);
