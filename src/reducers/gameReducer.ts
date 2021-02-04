@@ -58,6 +58,9 @@ export function gameReducer(state: any, action: any, ws: WebSocket) {
 		}
 	} else if (action.type === 'game/move' && state[action.id]) {
 		const pgn = updatePGN(state[action.id].pgn, action.move);
+		state[action.id][pgnToColor(state[action.id].pgn)].connections
+			.filter((conn: WebSocket) => conn !== ws && conn.readyState === 1)
+			.forEach((conn: WebSocket) => conn.send(makeMove({ pgn })));
 		state[action.id][pgnToColor(pgn)].connections
 			.filter((conn: WebSocket) => conn.readyState === 1)
 			.forEach((conn: WebSocket) => conn.send(makeMove({ pgn })));
