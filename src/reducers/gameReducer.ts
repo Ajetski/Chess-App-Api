@@ -1,18 +1,19 @@
 import { updatePGN, pgnToColor } from '../utils';
 import { makeMove, connectToGame, stayConnected, error } from '../actions/gameActions';
+import { Color, GameAction, Games } from '../types';
 
-export function gameReducer(state: any, action: any, ws: WebSocket) {
+export function gameReducer(state: Games, action: GameAction, ws: WebSocket) {
 	if (action.type === 'game/connect') {
 		if (state[action.id]) {
 			// connect to existing game
-			const resConnect = (color: string) => ws.send(connectToGame({
+			const resConnect = (color: Color) => ws.send(connectToGame({
 				id: action.id,
 				orientation: color,
 				isPlayer: action.isPlayer,
 				pgn: state[action.id].pgn
 			}));
 
-			const calcStateForColor = (color: string) => {
+			const calcStateForColor = (color: Color) => {
 				return ({
 					...state,
 					[action.id]: {
