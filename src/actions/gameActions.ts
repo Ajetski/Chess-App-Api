@@ -6,7 +6,7 @@ export function makeMove({ pgn }: { pgn: string }) {
 }
 
 export function connectToGame({ id, orientation, isPlayer, pgn }: {
-	id: string, orientation: string, isPlayer: boolean, pgn: string
+	id: number, orientation: string, isPlayer: boolean, pgn: string
 }) {
 	return JSON.stringify({
 		type: 'game/connect',
