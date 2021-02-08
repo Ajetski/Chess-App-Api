@@ -4,7 +4,7 @@
 
 - Navigate to the api folder
 - Run `yarn install`
-- Run `yarn start`
+- Run `yarn run dev`
 
 
 Deployed to https://ajet-chess-app-server.herokuapp.com/

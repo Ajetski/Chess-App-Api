@@ -5,6 +5,7 @@ import * as bodyParser from 'body-parser';
 
 import { gameReducer } from './reducers/gameReducer';
 import { pgnToGameLength, getUptime } from './utils';
+import { Action, Store } from './types';
 
 const app: any = express();
 app.use(cors());
@@ -13,14 +14,14 @@ const expressWs = ExpressWs(app);
 
 const HTTP_PORT = process.env.PORT || 3001;
 
-let store: any = { games: {} };
+let store: Store = { games: {} };
 let gameCounter = 1;
 
 const startUpTime = new Date();
 
 app.ws('/', (ws: any, req: express.Request) => {
 	ws.on('message', (message: string) => {
-		const action = JSON.parse(message);
+		const action: Action = JSON.parse(message);
 		console.log('message recieved: ', action);
 		store.games = gameReducer(store.games, action, ws);
 	});
@@ -33,13 +34,16 @@ app.get('/', (req: express.Request, res: express.Response) => {
 });
 
 app.get('/game', (req: express.Request, res: express.Response) => {
-	return res.send(Object.keys(store.games).map(id => ({
+	return res.send(Object.keys(store.games).map((id: string) => ({
 		id,
-		numMoves: pgnToGameLength(store.games[id].pgn)
+		numMoves: pgnToGameLength(store.games[parseInt(id)].pgn)
 	})));
 });
 
-app.post('/game', (req: express.Request, res: express.Response) => {
+app.post('/game', (req: express.Request<{}, {}, {
+	color?: 'white' | 'black' | 'random',
+	userId?: string
+}>, res: express.Response) => {
 	const id = gameCounter++;
 	store.games[id] = {
 		pgn: '',
