@@ -1,7 +1,7 @@
-import { Schema } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import validator from 'validator';
 
-export const Game = new Schema({
+const gameSchema = new Schema({
     id: {
         type: Number,
         required: true
@@ -36,3 +36,5 @@ export const Game = new Schema({
     },
     winner: String
 });
+
+export const Game = model('Game', gameSchema);
