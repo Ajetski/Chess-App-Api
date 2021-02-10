@@ -1,7 +1,7 @@
-import { Schema, Types } from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
 import validator from 'validator';
 
-export const User = new Schema({
+const userSchema = new Schema({
     uuid: {
         type: String,
         required: true,
@@ -40,8 +40,8 @@ export const User = new Schema({
             type: Boolean,
             default: true,
             required: true
-        },
-        required: true
+        }
     },
 });
 
+export const User = model('User', userSchema);
