@@ -3,6 +3,8 @@ import * as ExpressWs from 'express-ws';
 import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
 
+require('dotenv').config();
+import './db';
 import { gameReducer } from './reducers/gameReducer';
 import { pgnToGameLength, getUptime } from './utils';
 import { Action, Store } from './types';
