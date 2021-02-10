@@ -2,7 +2,9 @@
 
 ## How to run
 
+
 - Navigate to the api folder
+- Add an environment variable `DB_CONNECTION_URL`, the connection URL for a MongoDB instance.
 - Run `yarn install`
 - Run `yarn run dev`
 
