@@ -1,6 +1,6 @@
 import { updatePGN, pgnToColor } from '../utils';
 import { makeMove, connectToGame, stayConnected, error } from '../actions/gameActions';
-import { Color, GameAction, Games } from '../types';
+import { Color, GameAction, Games } from '../types/storeTypes';
 
 export function gameReducer(state: Games, action: GameAction, ws: WebSocket) {
 	if (action.type === 'game/connect') {
