@@ -7,7 +7,9 @@ require('dotenv').config();
 import './db';
 import { gameReducer } from './reducers/gameReducer';
 import { pgnToGameLength, getUptime } from './utils';
-import { Action, Store } from './types';
+import { Action, Store } from './types/storeTypes';
+import { User } from './types/userTypes';
+import { User as UserModel } from './models/User';
 
 const app: any = express();
 app.use(cors());
@@ -71,6 +73,18 @@ app.post('/game', (req: express.Request<{}, {}, {
 		}
 	}
 	res.send({ id });
+});
+
+app.post('/user', async (req: express.Request<{}, {}, User>, res: express.Response) => {
+	try {
+		console.log(req.body);
+		const user = new UserModel(req.body);
+		await user.save();
+		res.send(req.body);
+	} catch (err) {
+		console.log(err);
+		res.status(500).send(err);
+	}
 });
 
 app.listen(HTTP_PORT, () => console.log(`Http Server is listening on port ${HTTP_PORT}...`));
