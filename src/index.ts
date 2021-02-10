@@ -77,12 +77,11 @@ app.post('/game', (req: express.Request<{}, {}, {
 
 app.post('/user', async (req: express.Request<{}, {}, User>, res: express.Response) => {
 	try {
-		console.log(req.body);
 		const user = new UserModel(req.body);
 		await user.save();
-		res.send(req.body);
+		res.send(user);
 	} catch (err) {
-		console.log(err);
+		// maybe log error to discord?
 		res.status(500).send(err);
 	}
 });
