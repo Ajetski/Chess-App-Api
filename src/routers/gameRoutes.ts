@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-
+import { Document } from 'mongoose';
 import { makeMove, connectToGame, stayConnected, error } from '../actions/gameActions';
 import { Game as GameModel } from '../models/Game';
 import { updatePGN, pgnToColor, colorToPlay, pgnToGameLength } from '../utils';
@@ -11,12 +11,11 @@ let gameConns: GameConnections = {};
 
 router.get('/game', async (req: Request, res: Response) => {
     try {
-        const gameQuery = await GameModel.find({});
+        const gameQuery: Document[] = await GameModel.find({});
         return res.send(gameQuery.map(game => ({
             id: game.get('id'),
             numMoves: pgnToGameLength(game.get('pgn'))
-        })
-        ));
+        })));
     }
     catch (err) {
         return res.sendStatus(500).send(err);
