@@ -10,7 +10,7 @@ const gameSchema = new Schema({
         type: String,
         default: null,
         validate(value) {
-            if (!validator.isUUID(value, 4))
+            if (value && !validator.isUUID(value, 4))
                 throw new Error('Value must be a valid UUIDv4')
         }
     },
@@ -18,7 +18,7 @@ const gameSchema = new Schema({
         type: String,
         default: null,
         validate(value) {
-            if (!validator.isUUID(value, 4))
+            if (value && !validator.isUUID(value, 4))
                 throw new Error('Value must be a valid UUIDv4');
         }
     },
