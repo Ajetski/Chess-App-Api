@@ -22,23 +22,18 @@ export type Action = GameAction;
 
 export type Color = 'white' | 'black';
 
-export interface Game {
-	pgn: string,
-	white: {
-		userId: string,
-		connections: WebSocket[]
-	},
-	black: {
-		userId: string,
-		connections: WebSocket[]
-	},
-	spectators: WebSocket[]
+export interface GameRequest {
+	id: number,
+	pgn?: string,
+	white?: string,
+	black?: string,
+	date: Date,
 };
 
-export interface Games {
-	[id: number]: Game
+export interface GameConnections {
+	[id: number]: {
+		white: WebSocket[],
+		black: WebSocket[],
+		spectators: WebSocket[]
+	}
 }
-
-export interface Store {
-	games: Games
-};
