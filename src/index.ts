@@ -9,6 +9,7 @@ import { getUptime } from './utils';
 import { router as userRouter } from './routers/userRoutes';
 import { router as gameRouter, handleAction as handleGameAction, handleAction } from './routers/gameRoutes';
 import { Action } from './types/storeTypes';
+import { router as contactRouter } from './routers/contactRoutes';
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(userRouter);
 app.use(gameRouter);
+app.use(contactRouter);
 
 const HTTP_PORT = process.env.PORT || 3001;
 const wss = new Server({ noServer: true });
